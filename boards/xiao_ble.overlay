@@ -30,29 +30,39 @@
 			reg = <0x00000000 0x00027000>;
 		};
 		
-		boot_partition_2: partition@27000 {
+		// dfu_partition: partition@27000 {
+		// 	label = "USB-DFU";
+		// 	reg = <0x00027000 0x00012000>;
+		// };
+		
+		// mcuboot_partition: partition@39000 {
+		// 	label = "mcuboot";
+		// 	reg = <0x00039000 0x00011000>;
+		// };
+		
+		mcuboot_partition: partition@27000 {
 			label = "mcuboot";
-			reg = <0x00027000 0x00013000>;
-		};
-		
-		slot0_partition: partition@3A000 {
-			label = "image-0";
-			reg = <0x0003A000 0x00053000>;
-		};
-		
-		slot1_partition: partition@8d000 {
-			label = "image-1";
-			reg = <0x0008d000 0x00053000>;
+			reg = <0x00027000 0x00011000>;
 		};
 
-		scratch_partition: partition@e0000 {
-			label = "image-scratch";
-			reg = <0x000e0000 0x0000c000>;
+		slot0_partition: partition@4a000 {
+			label = "image-0";
+			reg = <0x0004a000 0x00034000>;
 		};
 		
-		storage_partition: partition@ec000 {
-			label = "Storage";
-			reg = <0x000ec000 0x00008000>;
+		slot1_partition: partition@7e000 {
+			label = "image-1";
+			reg = <0x0007e000 0x00034000>;
+		};
+
+		slot2_partition: partition@b2000 {
+			label = "image-2";
+			reg = <0x000b2000 0x00034000>;
+		};
+
+		scratch_partition: partition@e6000 {
+			label = "image-scratch";
+			reg = <0x000e6000 0x0000e000>;
 		};
 
 		boot_partition: partition@f4000 {

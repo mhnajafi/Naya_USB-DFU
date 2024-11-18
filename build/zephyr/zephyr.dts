@@ -384,9 +384,9 @@
 						read-only;
 						reg = < 0x0 0x27000 >;
 					};
-					code_partition: boot_partition_2: partition@27000 {
+					code_partition: mcuboot_partition: partition@27000 {
 						label = "mcuboot";
-						reg = < 0x27000 0x13000 >;
+						reg = < 0x27000 0x11000 >;
 					};
 					storage_partition: partition@ec000 {
 						label = "Storage";
@@ -397,17 +397,21 @@
 						read-only;
 						reg = < 0xf4000 0xc000 >;
 					};
-					slot0_partition: partition@3A000 {
+					slot0_partition: partition@4a000 {
 						label = "image-0";
-						reg = < 0x3a000 0x53000 >;
+						reg = < 0x4a000 0x34000 >;
 					};
-					slot1_partition: partition@8d000 {
+					slot1_partition: partition@7e000 {
 						label = "image-1";
-						reg = < 0x8d000 0x53000 >;
+						reg = < 0x7e000 0x34000 >;
 					};
-					scratch_partition: partition@e0000 {
+					slot2_partition: partition@b2000 {
+						label = "image-2";
+						reg = < 0xb2000 0x34000 >;
+					};
+					scratch_partition: partition@e6000 {
 						label = "image-scratch";
-						reg = < 0xe0000 0xc000 >;
+						reg = < 0xe6000 0xe000 >;
 					};
 				};
 			};
