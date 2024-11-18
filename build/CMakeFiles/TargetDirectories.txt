@@ -209,6 +209,9 @@
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/serial/CMakeFiles/drivers__serial.dir
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/serial/CMakeFiles/edit_cache.dir
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/serial/CMakeFiles/rebuild_cache.dir
+/home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/spi/CMakeFiles/drivers__spi.dir
+/home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/spi/CMakeFiles/edit_cache.dir
+/home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/spi/CMakeFiles/rebuild_cache.dir
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/timer/CMakeFiles/drivers__timer.dir
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/timer/CMakeFiles/edit_cache.dir
 /home/mhn/zephyrproject/applications/dfu/build/zephyr/drivers/timer/CMakeFiles/rebuild_cache.dir

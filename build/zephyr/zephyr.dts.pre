@@ -1125,9 +1125,48 @@ zephyr_udc0: &usbd {
 };
 # 0 "<command-line>" 2
 # 1 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay" 1
-# 10 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+# 9 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+ &qspi {
+ status = "okay";
+ pinctrl-0 = <&qspi_default>;
+ pinctrl-1 = <&qspi_sleep>;
+ pinctrl-names = "default", "sleep";
+ p25q16h: p25q16h@0 {
+  compatible = "nordic,qspi-nor";
+  reg = <0>;
+  sck-frequency = <104000000>;
+  quad-enable-requirements = "S2B1v1";
+  jedec-id = [85 60 15];
+  sfdp-bfp = [
+   e5 20 f1 ff ff ff ff 00 44 eb 08 6b 08 3b 80 bb
+   ee ff ff ff ff ff 00 ff ff ff 00 ff 0c 20 0f 52
+   10 d8 08 81
+  ];
+  size = <16777216>;
+  has-dpd;
+  t-enter-dpd = <3000>;
+  t-exit-dpd = <8000>;
+
+  partitions {
+   compatible = "fixed-partitions";
+   #address-cells = <1>;
+   #size-cells = <1>;
+
+   slot2_partition: partition@0 {
+    label = "storage";
+    reg = <0x0 ((1024) * 1024)>;
+   };
+  };
+ };
+};
+
+
+
+
+
+
 &flash0 {
-# 22 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+# 60 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
  partitions {
   compatible = "fixed-partitions";
   #address-cells = <1>;
@@ -1138,7 +1177,7 @@ zephyr_udc0: &usbd {
    read-only;
    reg = <0x00000000 0x00027000>;
   };
-# 43 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+# 81 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
   mcuboot_partition: partition@27000 {
    label = "mcuboot";
    reg = <0x00027000 0x00011000>;
@@ -1154,7 +1193,7 @@ zephyr_udc0: &usbd {
    reg = <0x0007e000 0x00034000>;
   };
 
-  slot2_partition: partition@b2000 {
+  s_partition: partition@b2000 {
    label = "image-2";
    reg = <0x000b2000 0x00034000>;
   };

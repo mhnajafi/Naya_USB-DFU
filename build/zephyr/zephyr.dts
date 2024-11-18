@@ -405,7 +405,7 @@
 						label = "image-1";
 						reg = < 0x7e000 0x34000 >;
 					};
-					slot2_partition: partition@b2000 {
+					s_partition: partition@b2000 {
 						label = "image-2";
 						reg = < 0xb2000 0x34000 >;
 					};
@@ -512,6 +512,15 @@
 				has-dpd;
 				t-enter-dpd = < 0xbb8 >;
 				t-exit-dpd = < 0x1f40 >;
+				partitions {
+					compatible = "fixed-partitions";
+					#address-cells = < 0x1 >;
+					#size-cells = < 0x1 >;
+					slot2_partition: partition@0 {
+						label = "storage";
+						reg = < 0x0 0x100000 >;
+					};
+				};
 			};
 		};
 		pwm3: pwm@4002d000 {

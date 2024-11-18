@@ -137,7 +137,7 @@ static void do_boot()
     #endif
 
     #if CONFIG_CPU_HAS_ARM_MPU || CONFIG_CPU_HAS_NXP_MPU
-        // z_arm_clear_arm_mpu_config();
+        z_arm_clear_arm_mpu_config();
     #endif
 
     #if defined(CONFIG_BUILTIN_STACK_GUARD) && \
@@ -183,36 +183,29 @@ static void do_boot()
 
 int main(void)
 {
-	int ret;
-
+	int ret;   
 
     ret = usb_enable(NULL);
+    // if (ret != 0) {
+    //     // LOG_ERR("Failed to enable USB");
+    //     return 0;
+    // }
+    // LOG_INF("This device supports USB DFU class.\n"); 
 
-    k_msleep(3000);
+	if(NRF_POWER->GPREGRET == DFU_MAGIC_UF2_RESET)
+	{		
+        while(1)
+        {
 
-	// if(NRF_POWER->GPREGRET == 0x57)
-	// {
-	// 	
-	// 	if (ret != 0) {
-	// 		LOG_ERR("Failed to enable USB");
-	// 		return 0;
-	// 	}
-	// 	LOG_INF("This device supports USB DFU class.\n");
-	// }
-	//else
-
-		// NRF_POWER->GPREGRET = 0x57;
-		// bootloader_util_app_start(NEW_APP_ADDRESS);
-    while(1)
+        }
+	}
+    else
     {
-        // jump_to_application(NEW_APP_ADDRESS);
+        NRF_POWER->GPREGRET = DFU_MAGIC_UF2_RESET;
+        k_msleep(3000);
+        NRF_POWER->GPREGRET = 0;
         do_boot();
-        // bootloader_util_app_start(NEW_APP_ADDRESS);
-        k_msleep(1000);
     }
-		
-		// 
-
 
 
 	return 0;
