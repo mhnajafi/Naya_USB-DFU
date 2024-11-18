@@ -54,10 +54,6 @@ LOG_MODULE_REGISTER(main);
 #define SD_SIZE_GET(baseaddr) (*((uint32_t *) ((baseaddr) + SD_SIZE_OFFSET)))
 
 
-#define DFU_DBL_RESET_MEM               0x20007F7C
-uint32_t* dbl_reset_mem = ((uint32_t*) DFU_DBL_RESET_MEM);
-
-
 struct arm_vector_table {
     uint32_t msp;
     uint32_t reset;
@@ -360,7 +356,8 @@ static void do_boot()
 }
 
 
-
+#define DFU_DBL_RESET_MEM               0x20007F7C
+uint32_t* dbl_reset_mem = ((uint32_t*) DFU_DBL_RESET_MEM);
 
 int main(void)
 {
