@@ -109,8 +109,8 @@ static void do_boot()
     // vt->msp=0x2000AD00;
     // vt->reset=0x0002A5C9;
 
-    vt->msp=0x2000AD00;
-    vt->reset=0x0002A5C9;
+    vt->msp=0x2000B040;
+    vt->reset=0x000295CD;
 
     
 
@@ -126,7 +126,18 @@ static void do_boot()
 #endif
 
 #if CONFIG_MCUBOOT_CLEANUP_ARM_CORE
-    cleanup_arm_nvic(); /* cleanup NVIC registers */
+    // cleanup_arm_nvic(); /* cleanup NVIC registers */
+    __ISB();
+	__disable_irq();
+
+	/* Disable NVIC interrupts */
+	for (uint8_t i = 0; i < ARRAY_SIZE(NVIC->ICER); i++) {
+		NVIC->ICER[i] = 0xFFFFFFFF;
+	}
+	/* Clear pending NVIC interrupts */
+	for (uint8_t i = 0; i < ARRAY_SIZE(NVIC->ICPR); i++) {
+		NVIC->ICPR[i] = 0xFFFFFFFF;
+	}
 
     #if defined(CONFIG_BOOT_DISABLE_CACHES)
         /* Flush and disable instruction/data caches before chain-loading the application */
@@ -183,30 +194,50 @@ static void do_boot()
 
 int main(void)
 {
-	int ret;   
 
-    ret = usb_enable(NULL);
-    // if (ret != 0) {
-    //     // LOG_ERR("Failed to enable USB");
-    //     return 0;
-    // }
-    // LOG_INF("This device supports USB DFU class.\n"); 
+    bool const reason_reset_pin = (NRF_POWER->RESETREAS & POWER_RESETREAS_RESETPIN_Msk) ? true : false;
 
-	if(NRF_POWER->GPREGRET == DFU_MAGIC_UF2_RESET)
-	{		
+
+    if( NRF_POWER->GPREGRET== DFU_MAGIC_UF2_RESET)
+    {	
+        NRF_POWER->GPREGRET=0;	
+        usb_enable(NULL);
         while(1)
         {
 
         }
-	}
+        
+    }
     else
     {
-        NRF_POWER->GPREGRET = DFU_MAGIC_UF2_RESET;
-        k_msleep(3000);
-        NRF_POWER->GPREGRET = 0;
-        do_boot();
+        if (reason_reset_pin) 
+        {
+            if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC)
+            {	
+                (*dbl_reset_mem) = 0;
+                usb_enable(NULL);	
+                while(1)
+                {
+
+                }                
+            }
+            else
+            {
+                // Register our first reset for double reset detection
+                (*dbl_reset_mem) = DFU_DBL_RESET_MAGIC;
+                
+                // if RST is pressed during this delay (double reset)--> if will enter dfu
+                k_msleep(DFU_DBL_RESET_DELAY);
+                
+                (*dbl_reset_mem) = 0;
+                // printf("Booting to app");
+                do_boot();
+            }
+        }
+        else
+        {            
+            do_boot();
+        }
     }
-
-
 	return 0;
 }

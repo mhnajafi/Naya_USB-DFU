@@ -1125,7 +1125,7 @@ zephyr_udc0: &usbd {
 };
 # 0 "<command-line>" 2
 # 1 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay" 1
-# 9 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+
  &qspi {
  status = "okay";
  pinctrl-0 = <&qspi_default>;
@@ -1153,7 +1153,7 @@ zephyr_udc0: &usbd {
    #size-cells = <1>;
 
    slot2_partition: partition@0 {
-    label = "storage";
+    label = "modules-image";
     reg = <0x0 ((1024) * 1024)>;
    };
   };
@@ -1163,10 +1163,8 @@ zephyr_udc0: &usbd {
 
 
 
-
-
 &flash0 {
-# 60 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+# 52 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
  partitions {
   compatible = "fixed-partitions";
   #address-cells = <1>;
@@ -1175,33 +1173,37 @@ zephyr_udc0: &usbd {
   reserved_partition_0: partition@0 {
    label = "SoftDevice";
    read-only;
-   reg = <0x00000000 0x00027000>;
+   reg = <0x00000000 0x00026000>;
   };
-# 81 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
-  mcuboot_partition: partition@27000 {
+
+  mcuboot_partition: partition@26000 {
    label = "mcuboot";
-   reg = <0x00027000 0x00011000>;
+   reg = <0x00026000 0x00012000>;
   };
 
-  slot0_partition: partition@4a000 {
+  slot0_partition: partition@38000 {
    label = "image-0";
-   reg = <0x0004a000 0x00034000>;
+   reg = <0x00038000 0x00057000>;
   };
 
-  slot1_partition: partition@7e000 {
+  slot1_partition: partition@8f000 {
    label = "image-1";
-   reg = <0x0007e000 0x00034000>;
-  };
-
-  s_partition: partition@b2000 {
-   label = "image-2";
-   reg = <0x000b2000 0x00034000>;
+   reg = <0x0008f000 0x00057000>;
   };
 
   scratch_partition: partition@e6000 {
    label = "image-scratch";
-   reg = <0x000e6000 0x0000e000>;
+   reg = <0x000e6000 0x00006000>;
   };
+
+
+
+
+
+  storage_partition: partition@ec000 {
+            label = "storage";
+            reg = <0x000ec000 0x00008000>;
+        };
 
   boot_partition: partition@f4000 {
    label = "UF2";
@@ -1210,7 +1212,6 @@ zephyr_udc0: &usbd {
   };
  };
 };
-
 
 / {
  chosen {

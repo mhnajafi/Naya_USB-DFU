@@ -382,14 +382,14 @@
 					reserved_partition_0: partition@0 {
 						label = "SoftDevice";
 						read-only;
-						reg = < 0x0 0x27000 >;
+						reg = < 0x0 0x26000 >;
 					};
-					code_partition: mcuboot_partition: partition@27000 {
-						label = "mcuboot";
-						reg = < 0x27000 0x11000 >;
+					code_partition: partition@27000 {
+						label = "Application";
+						reg = < 0x27000 0xc5000 >;
 					};
 					storage_partition: partition@ec000 {
-						label = "Storage";
+						label = "storage";
 						reg = < 0xec000 0x8000 >;
 					};
 					boot_partition: partition@f4000 {
@@ -397,21 +397,21 @@
 						read-only;
 						reg = < 0xf4000 0xc000 >;
 					};
-					slot0_partition: partition@4a000 {
+					mcuboot_partition: partition@26000 {
+						label = "mcuboot";
+						reg = < 0x26000 0x12000 >;
+					};
+					slot0_partition: partition@38000 {
 						label = "image-0";
-						reg = < 0x4a000 0x34000 >;
+						reg = < 0x38000 0x57000 >;
 					};
-					slot1_partition: partition@7e000 {
+					slot1_partition: partition@8f000 {
 						label = "image-1";
-						reg = < 0x7e000 0x34000 >;
-					};
-					s_partition: partition@b2000 {
-						label = "image-2";
-						reg = < 0xb2000 0x34000 >;
+						reg = < 0x8f000 0x57000 >;
 					};
 					scratch_partition: partition@e6000 {
 						label = "image-scratch";
-						reg = < 0xe6000 0xe000 >;
+						reg = < 0xe6000 0x6000 >;
 					};
 				};
 			};
@@ -517,7 +517,7 @@
 					#address-cells = < 0x1 >;
 					#size-cells = < 0x1 >;
 					slot2_partition: partition@0 {
-						label = "storage";
+						label = "modules-image";
 						reg = < 0x0 0x100000 >;
 					};
 				};

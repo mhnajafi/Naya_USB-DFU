@@ -1,10 +1,3 @@
-/*
- * Copyright (c) 2020 Nordic Semiconductor ASA
- *
- * SPDX-License-Identifier: Apache-2.0
- */
-
-
 
  &qspi {
 	status = "okay";
@@ -33,7 +26,7 @@
 			#size-cells = <1>;
 		
 			slot2_partition: partition@0 {
-				label = "storage";
+				label = "modules-image";
 				reg = <0x0 DT_SIZE_K(1024)>;
 			};
 		};
@@ -43,18 +36,17 @@
 
 
 
-
-
 &flash0 {
 	/*
-	 * Modified flash layout for nrf52840 using UF2 and SoftDevice s140 v7
+	 *  flash layout for naya 
 	 *
 	 * 0x00000000 SoftDevice s140 v7    (156 kB)
-	 * 0x00027000 mcuboot partition     (64 kB)
- 	 * 0x00037000 image-0 partition     (362 kB)
- 	 * 0x00091800 image-1 partition     (362 kB)
+	 * 0x00026000 mcuboot partition     (72 kB)
+ 	 * 0x00038000 image-0 partition     (348 kB)
+ 	 * 0x0008f000 image-1 partition     (348 kB)
+	 * 0x000e6000 scratch partition     (24 kB)
 	 * 0x000ec000 Storage partition     (32 kB)
-	 * 0x000f4000 UF2 boot partition    (48 kB)
+	 * 0x000f4000 DFU boot partition    (48 kB)
 	 */
 
 	partitions {
@@ -65,43 +57,37 @@
 		reserved_partition_0: partition@0 {
 			label = "SoftDevice";
 			read-only;
-			reg = <0x00000000 0x00027000>;
+			reg = <0x00000000 0x00026000>;
 		};
 		
-		// dfu_partition: partition@27000 {
-		// 	label = "USB-DFU";
-		// 	reg = <0x00027000 0x00012000>;
-		// };
-		
-		// mcuboot_partition: partition@39000 {
-		// 	label = "mcuboot";
-		// 	reg = <0x00039000 0x00011000>;
-		// };
-		
-		mcuboot_partition: partition@27000 {
+		mcuboot_partition: partition@26000 {
 			label = "mcuboot";
-			reg = <0x00027000 0x00011000>;
-		};
-
-		slot0_partition: partition@4a000 {
-			label = "image-0";
-			reg = <0x0004a000 0x00034000>;
+			reg = <0x00026000 0x00012000>;
 		};
 		
-		slot1_partition: partition@7e000 {
-			label = "image-1";
-			reg = <0x0007e000 0x00034000>;
+		slot0_partition: partition@38000 {
+			label = "image-0";
+			reg = <0x00038000 0x00057000>;
 		};
-
-		s_partition: partition@b2000 {
-			label = "image-2";
-			reg = <0x000b2000 0x00034000>;
+		
+		slot1_partition: partition@8f000 {
+			label = "image-1";
+			reg = <0x0008f000 0x00057000>;
 		};
 
 		scratch_partition: partition@e6000 {
 			label = "image-scratch";
-			reg = <0x000e6000 0x0000e000>;
+			reg = <0x000e6000 0x00006000>;
 		};
+		
+        /*
+         * Storage partition will be used by FCB/LittleFS/NVS
+         * if enabled.
+         */
+		storage_partition: partition@ec000 {
+            label = "storage";
+            reg = <0x000ec000 0x00008000>;
+        };
 
 		boot_partition: partition@f4000 {
 			label = "UF2";
@@ -110,7 +96,6 @@
 		};
 	};
 };
-
 
 / {
 	chosen {
