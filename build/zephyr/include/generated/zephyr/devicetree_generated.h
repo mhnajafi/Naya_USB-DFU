@@ -3569,18 +3569,18 @@
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_bias_pull_down_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_low_power_enable 0
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_low_power_enable_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels {7602197 /* 0x740015 */, 8126484 /* 0x7c0014 */, 8388632 /* 0x800018 */, 8650774 /* 0x840016 */, 8912919 /* 0x880017 */, 7864345 /* 0x780019 */}
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_0 7602197
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels {7602195 /* 0x740013 */, 8126486 /* 0x7c0016 */, 8388629 /* 0x800015 */, 8650775 /* 0x840017 */, 8912928 /* 0x880020 */, 7864340 /* 0x780014 */}
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_0 7602195
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_0_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_1 8126484
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_1 8126486
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_1_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_2 8388632
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_2 8388629
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_2_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_3 8650774
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_3 8650775
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_3_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_4 8912919
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_4 8912928
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_4_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_5 7864345
+#define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_5 7864340
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_IDX_5_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_default_S_group1_P_psels_FOREACH_PROP_ELEM(fn) fn(DT_N_S_pin_controller_S_qspi_default_S_group1, psels, 0) \
 	fn(DT_N_S_pin_controller_S_qspi_default_S_group1, psels, 1) \
@@ -3754,16 +3754,16 @@
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_bias_pull_down_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_low_power_enable 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_low_power_enable_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels {7602197 /* 0x740015 */, 8126484 /* 0x7c0014 */, 8388632 /* 0x800018 */, 8650774 /* 0x840016 */, 8912919 /* 0x880017 */}
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_0 7602197
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels {7602195 /* 0x740013 */, 8126486 /* 0x7c0016 */, 8388629 /* 0x800015 */, 8650775 /* 0x840017 */, 8912928 /* 0x880020 */}
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_0 7602195
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_0_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_1 8126484
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_1 8126486
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_1_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_2 8388632
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_2 8388629
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_2_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_3 8650774
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_3 8650775
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_3_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_4 8912919
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_4 8912928
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_IDX_4_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group1_P_psels_FOREACH_PROP_ELEM(fn) fn(DT_N_S_pin_controller_S_qspi_sleep_S_group1, psels, 0) \
 	fn(DT_N_S_pin_controller_S_qspi_sleep_S_group1, psels, 1) \
@@ -3864,8 +3864,8 @@
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_bias_pull_down_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_low_power_enable 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_low_power_enable_EXISTS 1
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels {7864345 /* 0x780019 */}
-#define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels_IDX_0 7864345
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels {7864340 /* 0x780014 */}
+#define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels_IDX_0 7864340
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels_IDX_0_EXISTS 1
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels_FOREACH_PROP_ELEM(fn) fn(DT_N_S_pin_controller_S_qspi_sleep_S_group2, psels, 0)
 #define DT_N_S_pin_controller_S_qspi_sleep_S_group2_P_psels_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_pin_controller_S_qspi_sleep_S_group2, psels, 0)
@@ -13606,12 +13606,12 @@
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_reg_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_zephyr_deferred_init 0
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_zephyr_deferred_init_EXISTS 1
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id {133 /* 0x85 */, 96 /* 0x60 */, 21 /* 0x15 */}
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_0 133
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id {239 /* 0xef */, 64 /* 0x40 */, 22 /* 0x16 */}
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_0 239
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_0_EXISTS 1
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_1 96
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_1 64
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_1_EXISTS 1
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_2 21
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_2 22
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_IDX_2_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_FOREACH_PROP_ELEM(fn) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, jedec_id, 0) \
 	fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, jedec_id, 1) \
@@ -13627,7 +13627,7 @@
 	fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, jedec_id, 2, __VA_ARGS__)
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_LEN 3
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_jedec_id_EXISTS 1
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_size 16777216
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_size 33554432
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_size_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_sfdp_bfp {229 /* 0xe5 */, 32 /* 0x20 */, 241 /* 0xf1 */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 0 /* 0x0 */, 68 /* 0x44 */, 235 /* 0xeb */, 8 /* 0x8 */, 107 /* 0x6b */, 8 /* 0x8 */, 59 /* 0x3b */, 128 /* 0x80 */, 187 /* 0xbb */, 238 /* 0xee */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 0 /* 0x0 */, 255 /* 0xff */, 255 /* 0xff */, 255 /* 0xff */, 0 /* 0x0 */, 255 /* 0xff */, 12 /* 0xc */, 32 /* 0x20 */, 15 /* 0xf */, 82 /* 0x52 */, 16 /* 0x10 */, 216 /* 0xd8 */, 8 /* 0x8 */, 129 /* 0x81 */}
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_sfdp_bfp_IDX_0 229
@@ -13872,6 +13872,38 @@
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_t_enter_dpd_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_t_exit_dpd 8000
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_t_exit_dpd_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc "read4io"
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_STRING_UNQUOTED read4io
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_STRING_TOKEN read4io
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_STRING_UPPER_TOKEN READ4IO
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_IDX_0 "read4io"
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_IDX_0_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_ENUM_IDX 4
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_ENUM_VAL_read4io_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_ENUM_TOKEN read4io
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_ENUM_UPPER_TOKEN READ4IO
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_FOREACH_PROP_ELEM(fn) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, readoc, 0)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, readoc, 0)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_FOREACH_PROP_ELEM_VARGS(fn, ...) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, readoc, 0, __VA_ARGS__)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_FOREACH_PROP_ELEM_SEP_VARGS(fn, sep, ...) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, readoc, 0, __VA_ARGS__)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_LEN 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_readoc_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc "pp4o"
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_STRING_UNQUOTED pp4o
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_STRING_TOKEN pp4o
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_STRING_UPPER_TOKEN PP4O
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_IDX_0 "pp4o"
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_IDX_0_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_ENUM_IDX 2
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_ENUM_VAL_pp4o_EXISTS 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_ENUM_TOKEN pp4o
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_ENUM_UPPER_TOKEN PP4O
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_FOREACH_PROP_ELEM(fn) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, writeoc, 0)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_FOREACH_PROP_ELEM_SEP(fn, sep) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, writeoc, 0)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_FOREACH_PROP_ELEM_VARGS(fn, ...) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, writeoc, 0, __VA_ARGS__)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_FOREACH_PROP_ELEM_SEP_VARGS(fn, sep, ...) fn(DT_N_S_soc_S_qspi_40029000_S_p25q16h_0, writeoc, 0, __VA_ARGS__)
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_LEN 1
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_writeoc_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_address_size_32 0
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_address_size_32_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_ppsize_512 0
@@ -13882,7 +13914,7 @@
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_cpha_EXISTS 1
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_cpol 0
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_cpol_EXISTS 1
-#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_sck_frequency 104000000
+#define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_sck_frequency 40000000
 #define DT_N_S_soc_S_qspi_40029000_S_p25q16h_0_P_sck_frequency_EXISTS 1
 
 /*
