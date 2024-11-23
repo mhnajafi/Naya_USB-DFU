@@ -3370,7 +3370,7 @@ initlevel       0x00000000000ff0f8       0x90
                 0x00000000000ff150        0x8 zephyr/libzephyr.a(usb_work_q.c.obj)
  .z_init_POST_KERNEL40_0_
                 0x00000000000ff158        0x8 zephyr/kernel/libkernel.a(system_work_q.c.obj)
- .z_init_POST_KERNEL41_00118_
+ .z_init_POST_KERNEL41_00117_
                 0x00000000000ff160        0x8 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
  .z_init_POST_KERNEL50_00089_
                 0x00000000000ff168        0x8 zephyr/drivers/spi/libdrivers__spi.a(spi_nrfx_spi.c.obj)
@@ -3410,7 +3410,7 @@ device_area     0x00000000000ff188       0xa0
                 0x00000000000ff1d8                __device_dts_ord_97
  ._device.static.3_41_
                 0x00000000000ff1ec       0x14 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
-                0x00000000000ff1ec                __device_dts_ord_118
+                0x00000000000ff1ec                __device_dts_ord_117
  ._device.static.3_50_
                 0x00000000000ff200       0x14 zephyr/drivers/flash/libdrivers__flash.a(soc_flash_nrf.c.obj)
                 0x00000000000ff200                __device_dts_ord_101
@@ -3615,11 +3615,11 @@ rodata          0x00000000000ff3b0      0x50c
                 0x00000000000ff538        0x8 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
  .rodata.qspi_nor_dev_config
                 0x00000000000ff540       0x38 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
- .rodata.__pinctrl_dev_config__device_dts_ord_117
+ .rodata.__pinctrl_dev_config__device_dts_ord_116
                 0x00000000000ff578        0xc zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
- .rodata.__pinctrl_states__device_dts_ord_117
+ .rodata.__pinctrl_states__device_dts_ord_116
                 0x00000000000ff584        0x8 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
- .rodata.__pinctrl_state_pins_0__device_dts_ord_117
+ .rodata.__pinctrl_state_pins_0__device_dts_ord_116
                 0x00000000000ff58c       0x18 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)
  .rodata.qspi_nor_api
                 0x00000000000ff5a4       0x14 zephyr/drivers/flash/libdrivers__flash.a(nrf_qspi_nor.c.obj)

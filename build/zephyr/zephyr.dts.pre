@@ -1152,9 +1152,15 @@ zephyr_udc0: &usbd {
    #address-cells = <1>;
    #size-cells = <1>;
 
-   slot2_partition: partition@0 {
+
+   slot1_partition: partition@0 {
+    label = "image-1";
+    reg = <0x00000000 0x000AE000>;
+   };
+
+   slot2_partition: partition@ae000 {
     label = "modules-image";
-    reg = <0x0 ((1024) * 1024)>;
+    reg = <0x000ae000 ((1024) * 1024)>;
    };
   };
  };
@@ -1164,7 +1170,7 @@ zephyr_udc0: &usbd {
 
 
 &flash0 {
-# 52 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+# 58 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
  partitions {
   compatible = "fixed-partitions";
   #address-cells = <1>;
@@ -1183,13 +1189,9 @@ zephyr_udc0: &usbd {
 
   slot0_partition: partition@38000 {
    label = "image-0";
-   reg = <0x00038000 0x00057000>;
+   reg = <0x00038000 0x000AE000>;
   };
 
-  slot1_partition: partition@8f000 {
-   label = "image-1";
-   reg = <0x0008f000 0x00057000>;
-  };
 
   scratch_partition: partition@e6000 {
    label = "image-scratch";

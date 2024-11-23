@@ -403,11 +403,7 @@
 					};
 					slot0_partition: partition@38000 {
 						label = "image-0";
-						reg = < 0x38000 0x57000 >;
-					};
-					slot1_partition: partition@8f000 {
-						label = "image-1";
-						reg = < 0x8f000 0x57000 >;
+						reg = < 0x38000 0xae000 >;
 					};
 					scratch_partition: partition@e6000 {
 						label = "image-scratch";
@@ -516,9 +512,13 @@
 					compatible = "fixed-partitions";
 					#address-cells = < 0x1 >;
 					#size-cells = < 0x1 >;
-					slot2_partition: partition@0 {
+					slot1_partition: partition@0 {
+						label = "image-1";
+						reg = < 0x0 0xae000 >;
+					};
+					slot2_partition: partition@ae000 {
 						label = "modules-image";
-						reg = < 0x0 0x100000 >;
+						reg = < 0xae000 0x100000 >;
 					};
 				};
 			};
