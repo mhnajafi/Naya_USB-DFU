@@ -382,18 +382,18 @@
 					reserved_partition_0: partition@0 {
 						label = "SoftDevice";
 						read-only;
-						reg = < 0x0 0x26000 >;
+						reg = < 0x0 0x27000 >;
 					};
 					code_partition: partition@27000 {
 						label = "Application";
 						reg = < 0x27000 0xc5000 >;
 					};
 					storage_partition: partition@ec000 {
-						label = "storage";
+						label = "Storage";
 						reg = < 0xec000 0x8000 >;
 					};
 					boot_partition: partition@f4000 {
-						label = "UF2";
+						label = "USB-DFU";
 						read-only;
 						reg = < 0xf4000 0xc000 >;
 					};
@@ -404,10 +404,6 @@
 					slot0_partition: partition@38000 {
 						label = "image-0";
 						reg = < 0x38000 0xae000 >;
-					};
-					scratch_partition: partition@e6000 {
-						label = "image-scratch";
-						reg = < 0xe6000 0x6000 >;
 					};
 				};
 			};
@@ -512,13 +508,13 @@
 					compatible = "fixed-partitions";
 					#address-cells = < 0x1 >;
 					#size-cells = < 0x1 >;
-					slot1_partition: partition@0 {
+					slot1_partition: partition@20000 {
 						label = "image-1";
-						reg = < 0x0 0xae000 >;
+						reg = < 0x20000 0xae000 >;
 					};
-					slot2_partition: partition@ae000 {
+					slot2_partition: partition@ce000 {
 						label = "modules-image";
-						reg = < 0xae000 0x100000 >;
+						reg = < 0xce000 0x100000 >;
 					};
 				};
 			};
