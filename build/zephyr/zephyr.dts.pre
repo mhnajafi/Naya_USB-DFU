@@ -1146,10 +1146,15 @@ zephyr_udc0: &usbd {
    compatible = "fixed-partitions";
    #address-cells = <1>;
    #size-cells = <1>;
+# 83 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+   slot1_partition: partition@20000 {
+    label = "image-1";
+    reg = <0x00020000 0x000ae000>;
+   };
 
-   slot2_partition: partition@0 {
+   slot2_partition: partition@ce000 {
     label = "modules-image";
-    reg = <0x0 ((1024) * 1024)>;
+    reg = <0x000ce000 0x00100000>;
    };
   };
  };
@@ -1190,17 +1195,17 @@ zephyr_udc0: &usbd {
 
 
 &flash0 {
-# 126 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
- partitions {
+# 142 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
+  partitions {
   compatible = "fixed-partitions";
   #address-cells = <1>;
   #size-cells = <1>;
 
-  reserved_partition_0: partition@0 {
-   label = "SoftDevice";
-   read-only;
-   reg = <0x00000000 0x00026000>;
-  };
+
+
+
+
+
 
   mcuboot_partition: partition@26000 {
    label = "mcuboot";
@@ -1209,30 +1214,11 @@ zephyr_udc0: &usbd {
 
   slot0_partition: partition@38000 {
    label = "image-0";
-   reg = <0x00038000 0x00057000>;
+   reg = <0x00038000 0x000AE000>;
   };
-
-  slot1_partition: partition@8f000 {
-   label = "image-1";
-   reg = <0x0008f000 0x00057000>;
-  };
-
-  scratch_partition: partition@e6000 {
-   label = "image-scratch";
-   reg = <0x000e6000 0x00006000>;
-  };
-
-
-
-
-
-  storage_partition: partition@ec000 {
-            label = "storage";
-            reg = <0x000ec000 0x00008000>;
-        };
-
+# 177 "/home/mhn/zephyrproject/applications/dfu/boards/xiao_ble.overlay"
   boot_partition: partition@f4000 {
-   label = "UF2";
+   label = "USB-DFU";
    read-only;
    reg = <0x000f4000 0x0000c000>;
   };

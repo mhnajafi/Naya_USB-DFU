@@ -22,6 +22,8 @@
 #include <soc.h>
 #include <zephyr/linker/linker-defs.h>
 
+#include <zephyr/storage/flash_map.h>
+
 
 LOG_MODULE_REGISTER(main);
 
@@ -83,36 +85,28 @@ static void do_boot()
      * consecutively. Manually set the stack pointer and jump into the
      * reset vector
      */
-    // int rc;
-    // const struct flash_area *fap;
+    int rc;
+    const struct flash_area *fap;
     static uint32_t dst[2];
 
 
 
-//     rc = flash_area_open(FIXED_PARTITION_ID(MCUBOOT_PARTITION), &fap);
-//     assert(rc == 0);
+    rc = flash_area_open(FIXED_PARTITION_ID(MCUBOOT_PARTITION), &fap);
+    assert(rc == 0);
 
-//     rc = flash_area_read(fap, 0 , dst, sizeof(dst));
+    rc = flash_area_read(fap, 0 , dst, sizeof(dst));
 
-//     assert(rc == 0);
-// #ifndef CONFIG_ASSERT
-//     /* Enter a lock up as asserts are disabled */
-//     if (rc != 0) {
-//         while (1);
-//     }
-// #endif
+    assert(rc == 0);
+#ifndef CONFIG_ASSERT
+    /* Enter a lock up as asserts are disabled */
+    if (rc != 0) {
+        while (1);
+    }
+#endif
 
-//     flash_area_close(fap);
+    flash_area_close(fap);
 
     vt = (struct arm_vector_table *)dst;
-
-    // vt->msp=0x2000AD00;
-    // vt->reset=0x0002A5C9;
-
-    vt->msp=0x2000B040;
-    vt->reset=0x000295CD;
-
-    
 
 
 
