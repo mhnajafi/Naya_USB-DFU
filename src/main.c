@@ -106,6 +106,9 @@ static void do_boot()
 
     flash_area_close(fap);
 
+
+    if( dst[0]== 0xFFFF) return 0;
+
     vt = (struct arm_vector_table *)dst;
 
 
@@ -196,11 +199,7 @@ int main(void)
     {	
         NRF_POWER->GPREGRET=0;	
         usb_enable(NULL);
-        while(1)
-        {
-
-        }
-        
+                
     }
     else
     {
@@ -209,11 +208,7 @@ int main(void)
             if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC)
             {	
                 (*dbl_reset_mem) = 0;
-                usb_enable(NULL);	
-                while(1)
-                {
-
-                }                
+                usb_enable(NULL);	       
             }
             else
             {
