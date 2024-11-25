@@ -75,7 +75,7 @@ void cleanup_arm_nvic(void) {
 
 
 
-static void do_boot()
+uint8_t do_boot()
 {
     struct arm_vector_table *vt;
 
@@ -88,6 +88,7 @@ static void do_boot()
     int rc;
     const struct flash_area *fap;
     static uint32_t dst[2];
+    
 
 
 
@@ -107,7 +108,7 @@ static void do_boot()
     flash_area_close(fap);
 
 
-    if( dst[0]== 0xFFFF) return 0;
+    if( dst[0] == 0xFFFF) return 0;
 
     vt = (struct arm_vector_table *)dst;
 
@@ -185,6 +186,8 @@ static void do_boot()
     __ISB();
 #endif
     ((void (*)(void))vt->reset)();
+
+    return 0;
 }
 
 
@@ -197,9 +200,7 @@ int main(void)
 
     if( NRF_POWER->GPREGRET== DFU_MAGIC_UF2_RESET)
     {	
-        NRF_POWER->GPREGRET=0;	
-        usb_enable(NULL);
-                
+        NRF_POWER->GPREGRET=0;	                
     }
     else
     {
@@ -207,8 +208,7 @@ int main(void)
         {
             if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC)
             {	
-                (*dbl_reset_mem) = 0;
-                usb_enable(NULL);	       
+                (*dbl_reset_mem) = 0;                	       
             }
             else
             {
@@ -228,5 +228,8 @@ int main(void)
             do_boot();
         }
     }
+
+    usb_enable(NULL);
+
 	return 0;
 }
