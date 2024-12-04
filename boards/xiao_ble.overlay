@@ -116,10 +116,10 @@
          * Storage partition will be used by FCB/LittleFS/NVS
          * if enabled.
          */
-		// storage_partition: partition@ec000 {
-        //     label = "storage";
-        //     reg = <0x000ec000 0x00008000>;
-        // };
+		storage_partition: partition@ec000 {
+            label = "storage";
+            reg = <0x000ec000 0x00008000>;
+        };
 
 		dfu_partition: partition@f4000 {
 			label = "USB-DFU";
