@@ -93,7 +93,7 @@
 
 		slot0_partition: partition@0 {		//Note: We just changed the label of this partition, Because dfu codes need both slot0 and slot1
 			label = "SoftDevice";
-			read-only;
+			// read-only;
 			reg = <0x00000000 0x00030000>;
 		};
 		
