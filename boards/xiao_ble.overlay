@@ -1,5 +1,4 @@
 
-
 &qspi {
 	status = "okay";
 	pinctrl-0 = <&qspi_default>;
@@ -19,32 +18,21 @@
 			compatible = "fixed-partitions";
 			#address-cells = <1>;
 			#size-cells = <1>;
-		
-			/* 1 MB Partition for the Keyboard and module Layout */
-			layout_partition: partition@0 {
-				label = "layout_partition";
-				reg = <0x00000000 0x00100000>;  /* 1MB Partition */
+
+
+			slot1_partition: partition@0 {
+				label = "image-1";
+				reg = <0x00000000 0x000a2000>;	 /* 648K Partition */
 			};
 
-			log_partition: partition@100000 {
-				label = "log_partition";
-				reg = <0x00100000 0x00080000>;  /* 0.5MB Partition */
-			};
-	
-			/* 1MB Partition reserve for secondary partition*/
-			slot1_partition: partition@180000 {
-				label = "image-1";
-				reg = <0x00180000 0x000ae000>;	 /* 696K Partition */
-			};
-			 /* 1MB Partition reserve */
-			reserve_partition: partition@22e000 {
-				label = "reserve_partition";
-				reg = <0x0022e000 0x00052000>;  /* 328K Partition */
-			};
-			slot2_partition: partition@280000 {
+			slot2_partition: partition@a2000 {
 				label = "modules-image";
-				reg = <0x00280000 0x00180000>;  /* 1.5MB Partition at the end */
+				reg = <0x000a2000 0x00180000>;  /* 1.5MB Partition at the end */
 			};
+
+
+
+
 		};
 	};
 };
@@ -90,9 +78,9 @@
 	/*
 	 *  flash layout for naya 
 	 *
-	 * 0x00000000 SoftDevice s140 v7    (156 kB)
-	 * 0x00026000 mcuboot partition     (72 kB)
- 	 * 0x00038000 image-0 partition     (696 kB)
+	 * 0x00000000 SoftDevice s140 v7    (192 kB)
+	 * 0x00026000 mcuboot partition     (80 kB)
+ 	 * 0x00038000 image-0 partition     (648 kB)
 	 * 0x000e6000 scratch partition     (24 kB)
 	 * 0x000ec000 Storage partition     (32 kB)
 	 * 0x000f4000 DFU boot partition    (48 kB)
@@ -103,21 +91,21 @@
 		#address-cells = <1>;
 		#size-cells = <1>;
 
-		// reserved_partition_0: partition@0 {
-		// 	label = "SoftDevice";
-		// 	read-only;
-		// 	reg = <0x00000000 0x00026000>;
-		// };
+		slot0_partition: partition@0 {		//Note: We just changed the label of this partition, Because dfu codes need both slot0 and slot1
+			label = "SoftDevice";
+			read-only;
+			reg = <0x00000000 0x00030000>;
+		};
 		
-		mcuboot_partition: partition@26000 {
+		mcuboot_partition: partition@30000 {
 			label = "mcuboot";
-			reg = <0x00026000 0x00012000>;
+			reg = <0x00030000 0x00014000>;
 		};
 		
-		slot0_partition: partition@38000 {
-			label = "image-0";
-			reg = <0x00038000 0x000AE000>;
-		};
+		// slot0_partition: partition@44000 {
+		// 	label = "image-0";
+		// 	reg = <0x00044000 0x000A2000>;
+		// };
 		
 		// scratch_partition: partition@e6000 {
 		// 	label = "image-scratch";
@@ -133,7 +121,7 @@
         //     reg = <0x000ec000 0x00008000>;
         // };
 
-		boot_partition: partition@f4000 {
+		dfu_partition: partition@f4000 {
 			label = "USB-DFU";
 			read-only;
 			reg = <0x000f4000 0x0000c000>;
