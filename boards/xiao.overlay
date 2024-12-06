@@ -28,12 +28,12 @@
 
 			slot1_partition: partition@0 {
 				label = "image-1";
-				reg = <0x00000000 0x000a2000>;	 /* 648K Partition */
+				reg = <0x00000000 0x000a2000>;	 /* 648K Partition for secondary partition*/
 			};
 
-			slot2_partition: partition@a2000 {
+			mfw_partition: partition@a2000 {
 				label = "modules-image";
-				reg = <0x000a2000 0x00180000>;  /* 1.5MB Partition at the end */
+				reg = <0x000a2000 0x00100000>;  /* 1MB Partition for modules firmware */
 			};
 
 		};
