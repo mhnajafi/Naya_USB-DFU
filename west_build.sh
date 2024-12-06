@@ -1,6 +1,6 @@
 board=xiao_ble
-dts="boards/xiao.overlay"
-conf="boards/xiao.conf"
+dts="boards/xiao_ble.overlay"
+conf="boards/xiao_ble.conf"
 
 
 if [ $# -lt 1 ]; then
@@ -10,14 +10,16 @@ if [ $# -lt 1 ]; then
     echo "       $0 naya_left "
     echo "       $0 naya_right "
     echo "       $0 naya_dongle "
-    echo "       $0 xiao "
+    echo "       $0 xiao_ble "
     exit 1
 fi
 
-if [[ "$1" == "xiao" || "$1" == "naya_left" || "$1" == "naya_right" || "$1" == "naya_dongle" ]]; then
-    dts="boards/$1.overlay"
-    conf="boards/$1.conf" 
-    west build -b $board --  -DDTC_OVERLAY_FILE=$dts -DEXTRA_CONF_FILE=$conf
+if [[ "$1" == "xiao_ble" || "$1" == "naya_left" || "$1" == "naya_right" || "$1" == "naya_dongle" ]]; then
+    board=$1
+    # dts="boards/$1.overlay"
+    conf="boards/$1.conf"
+    source ../../.venv/bin/activate
+    west build --pristine=auto -b $board -- -DEXTRA_CONF_FILE=$conf 
 
 else
     echo "Invalid board Name"
@@ -25,7 +27,7 @@ else
     echo "       $0 naya_left "
     echo "       $0 naya_right "
     echo "       $0 naya_dongle "
-    echo "       $0 xiao "
+    echo "       $0 xiao_ble "
     exit 1
 fi
 

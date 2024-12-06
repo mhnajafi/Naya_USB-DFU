@@ -10,9 +10,6 @@
 #include <zephyr/kernel.h>
 #include <zephyr/logging/log.h>
 #include <zephyr/usb/usb_device.h>
-
-
-
 #include <assert.h>
 #include <zephyr/devicetree.h>
 #include <zephyr/drivers/gpio.h>
@@ -47,9 +44,16 @@ LOG_MODULE_REGISTER(main);
 #define DFU_DBL_RESET_APP               0x4ee5677e
 #define DFU_DBL_RESET_DELAY             500
 #define DFU_DBL_RESET_MEM               0x20007F7C
+
+
 uint32_t* dbl_reset_mem = ((uint32_t*) DFU_DBL_RESET_MEM);
+uint8_t status=0;
+K_THREAD_STACK_DEFINE(new_thread_stack, 128);
+struct k_thread new_thread_data;
 
-
+static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
+static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
+static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 
 
 struct arm_vector_table {
@@ -78,8 +82,6 @@ void cleanup_arm_nvic(void) {
 uint8_t do_boot()
 {
     struct arm_vector_table *vt;
-
-
     /* The beginning of the image is the ARM vector table, containing
      * the initial stack pointer address and the reset vector
      * consecutively. Manually set the stack pointer and jump into the
@@ -89,9 +91,6 @@ uint8_t do_boot()
     const struct flash_area *fap;
     static uint32_t dst[2];
     
-
-
-
     rc = flash_area_open(FIXED_PARTITION_ID(MCUBOOT_PARTITION), &fap);
     assert(rc == 0);
 
@@ -108,7 +107,7 @@ uint8_t do_boot()
     flash_area_close(fap);
 
 
-    if( dst[0] == 0xFFFF) return 0;
+    if( dst[0] == 0xFFFFFFFF) return 0;
 
     vt = (struct arm_vector_table *)dst;
 
@@ -194,9 +193,10 @@ uint8_t do_boot()
 
 int main(void)
 {
+    gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
+    gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);    
 
     bool const reason_reset_pin = (NRF_POWER->RESETREAS & POWER_RESETREAS_RESETPIN_Msk) ? true : false;
-
 
     if( NRF_POWER->GPREGRET== DFU_MAGIC_UF2_RESET)
     {	
@@ -230,6 +230,15 @@ int main(void)
     }
 
     usb_enable(NULL);
+
+    uint16_t delay;
+    while (1) {
+        gpio_pin_toggle_dt(&led_blue);
+        gpio_pin_toggle_dt(&led_red);
+        if(status == 0) delay = 700;
+        else delay =300;
+        k_msleep(delay);  
+    }
 
 	return 0;
 }
