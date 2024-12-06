@@ -1,0 +1,109 @@
+
+&qspi {
+	status = "okay";
+	pinctrl-0 = <&qspi_default>;
+	pinctrl-1 = <&qspi_sleep>;
+	pinctrl-names = "default", "sleep";
+	p25q16h: p25q16h@0 {
+		compatible = "nordic,qspi-nor";
+		reg = <0>;
+		sck-frequency = <104000000>;
+		quad-enable-requirements = "S2B1v1";
+		jedec-id = [85 60 15];
+		sfdp-bfp = [
+			e5 20 f1 ff  ff ff ff 00  44 eb 08 6b  08 3b 80 bb
+			ee ff ff ff  ff ff 00 ff  ff ff 00 ff  0c 20 0f 52
+			10 d8 08 81
+		];
+		size = <16777216>;
+		has-dpd;
+		t-enter-dpd = <3000>;
+		t-exit-dpd = <8000>;
+
+		partitions {
+			compatible = "fixed-partitions";
+			#address-cells = <1>;
+			#size-cells = <1>;
+
+
+			slot1_partition: partition@0 {
+				label = "image-1";
+				reg = <0x00000000 0x000a2000>;	 /* 648K Partition */
+			};
+
+			slot2_partition: partition@a2000 {
+				label = "modules-image";
+				reg = <0x000a2000 0x00180000>;  /* 1.5MB Partition at the end */
+			};
+
+		};
+	};
+};
+
+
+
+
+
+&flash0 {
+	/*
+	 *  flash layout for naya 
+	 *
+	 * 0x00000000 SoftDevice s140 v7    (192 kB)
+	 * 0x00026000 mcuboot partition     (80 kB)
+ 	 * 0x00038000 image-0 partition     (648 kB)
+	 * 0x000e6000 scratch partition     (24 kB)
+	 * 0x000ec000 Storage partition     (32 kB)
+	 * 0x000f4000 DFU boot partition    (48 kB)
+	 */
+
+	partitions {
+		compatible = "fixed-partitions";
+		#address-cells = <1>;
+		#size-cells = <1>;
+
+		softdevice_partition: partition@0 {		
+			label = "SoftDevice";
+			// read-only;
+			reg = <0x00000000 0x00030000>;
+		};
+		
+		mcuboot_partition: partition@30000 {
+			label = "mcuboot";
+			reg = <0x00030000 0x00014000>;
+		};
+		
+		slot0_partition: partition@44000 {
+			label = "image-0";
+			reg = <0x00044000 0x000A2000>;
+		};
+		
+		// scratch_partition: partition@e6000 {
+		// 	label = "image-scratch";
+		// 	reg = <0x000e6000 0x00006000>;
+		// };
+		
+        /*
+         * Storage partition will be used by FCB/LittleFS/NVS
+         * if enabled.
+         */
+		storage_partition: partition@ec000 {
+            label = "storage";
+            reg = <0x000ec000 0x00008000>;
+        };
+
+		dfu_partition: partition@f4000 {
+			label = "USB-DFU";
+			read-only;
+			reg = <0x000f4000 0x0000c000>;
+		};
+	};
+};
+
+
+
+
+/ {
+	chosen {
+		zephyr,code-partition = &boot_partition;
+	};
+};
