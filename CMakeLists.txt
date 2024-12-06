@@ -6,5 +6,3 @@ project(dfu)
 
 FILE(GLOB app_sources src/*.c)
 target_sources(app PRIVATE ${app_sources})
-
-set(ZEPHYR_EXTRA_MODULES "${CMAKE_CURRENT_SOURCE_DIR}")

@@ -67,15 +67,13 @@
 
 
 
-
-
 &flash0 {
 	/*
 	 *  flash layout for naya 
 	 *
 	 * 0x00000000 SoftDevice s140 v7    (192 kB)
-	 * 0x00026000 mcuboot partition     (80 kB)
- 	 * 0x00038000 image-0 partition     (648 kB)
+	 * 0x00030000 mcuboot partition     (80 kB)
+ 	 * 0x00044000 image-0 partition     (648 kB)
 	 * 0x000e6000 scratch partition     (24 kB)
 	 * 0x000ec000 Storage partition     (32 kB)
 	 * 0x000f4000 DFU boot partition    (48 kB)
