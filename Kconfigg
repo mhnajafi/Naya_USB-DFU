@@ -1,0 +1,2 @@
+config GOLIOTH_IS_AWESOME
+    bool "Confirm that Golioth is awesome"

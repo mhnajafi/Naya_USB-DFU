@@ -1,0 +1,1 @@
+west build -b xiao_ble --  -DDTC_OVERLAY_FILE="boards/xiao.overlay" -DEXTRA_CONF_FILE="boards/xiao.conf"
