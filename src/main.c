@@ -232,12 +232,22 @@ int main(void)
     usb_enable(NULL);
 
     uint16_t delay;
+    uint32_t start=k_uptime_get_32();
+    uint32_t st=0;
+    
     while (1) {
         gpio_pin_toggle_dt(&led_blue);
         gpio_pin_toggle_dt(&led_red);
         if(status == 0) delay = 700;
-        else delay =300;
-        k_msleep(delay);  
+        else delay =70;
+  
+        st=k_uptime_get_32();
+        while(k_uptime_get_32() - st < delay)
+        {
+
+        }
+
+        if(k_uptime_get_32() - start > 10000) do_boot();
     }
 
 	return 0;
