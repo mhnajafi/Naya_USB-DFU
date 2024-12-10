@@ -52,7 +52,7 @@
             reg = <0x000ec000 0x00008000>;
         };
 
-		boot_partition: partition@f4000 {
+		dfu_partition: partition@f4000 {
 			label = "USB-DFU";
 			read-only;
 			reg = <0x000f4000 0x0000c000>;
@@ -64,7 +64,7 @@
 
 / {
 	chosen {
-		zephyr,code-partition = &boot_partition;
+		zephyr,code-partition = &dfu_partition;
 	};
 };
 

@@ -38,16 +38,18 @@ LOG_MODULE_REGISTER(main);
 #define DFU_MAGIC_OTA_RESET             0xA8
 #define DFU_MAGIC_SERIAL_ONLY_RESET     0x4e
 #define DFU_MAGIC_UF2_RESET             0x57
+#define DFU_MAGIC_MCUMGR_RESET          0x48
 #define DFU_MAGIC_SKIP                  0x6d
 
-#define DFU_DBL_RESET_MAGIC             0x5A1AD5      // SALADS
+#define DFU_DBL_RESET_MAGIC_1            0x5A1AD5      // SALADS
+#define DFU_DBL_RESET_MAGIC_2            0x5A5A1A      // SASALA
 #define DFU_DBL_RESET_APP               0x4ee5677e
 #define DFU_DBL_RESET_DELAY             500
 #define DFU_DBL_RESET_MEM               0x20007F7C
 
 
 uint32_t* dbl_reset_mem = ((uint32_t*) DFU_DBL_RESET_MEM);
-uint8_t status=0;
+uint8_t led_blink_status=0;
 K_THREAD_STACK_DEFINE(new_thread_stack, 128);
 struct k_thread new_thread_data;
 
@@ -111,7 +113,8 @@ uint8_t do_boot()
 
     vt = (struct arm_vector_table *)dst;
 
-
+    gpio_pin_configure_dt(&led_blue, GPIO_DISCONNECTED);
+    gpio_pin_configure_dt(&led_red, GPIO_DISCONNECTED);
 
     if (IS_ENABLED(CONFIG_SYSTEM_TIMER_HAS_DISABLE_SUPPORT)) {
         sys_clock_disable();
@@ -190,11 +193,36 @@ uint8_t do_boot()
 }
 
 
+void led_blink(void *, void *, void *)
+{
+    uint16_t delay;
+    uint32_t start=k_uptime_get_32();
+    uint32_t st=0;
+    gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
+    gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);   
+    
+    while (1) {
+        gpio_pin_toggle_dt(&led_blue);
+        gpio_pin_toggle_dt(&led_red);
+        if(led_blink_status == 0) delay = 700;
+        else delay =50;
+  
+        st=k_uptime_get_32();
+        while(k_uptime_get_32() - st < delay)
+        {
+
+        }
+
+        if(k_uptime_get_32() - start > 10000) do_boot();
+    }
+}
+
+
+struct k_thread my_thread_data;
+K_THREAD_STACK_DEFINE(my_stack_area, 1024);
 
 int main(void)
 {
-    gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
-    gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);    
 
     bool const reason_reset_pin = (NRF_POWER->RESETREAS & POWER_RESETREAS_RESETPIN_Msk) ? true : false;
 
@@ -206,14 +234,28 @@ int main(void)
     {
         if (reason_reset_pin) 
         {
-            if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC)
+            if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC_2)
             {	
-                (*dbl_reset_mem) = 0;                	       
+                (*dbl_reset_mem) = 0;
+                //Magic value for MCUBoot to detect entering recovery mode
+                NRF_POWER->GPREGRET=DFU_MAGIC_MCUMGR_RESET;
+                //Boot to MCUboot
+                do_boot();               	       
+            }
+            else if(* dbl_reset_mem == DFU_DBL_RESET_MAGIC_1)
+            {
+                // Register our second reset for tripple reset detection
+                (*dbl_reset_mem) = DFU_DBL_RESET_MAGIC_2;
+                
+                // if RST is pressed during this delay (tripple reset)--> if will enter MCUMGR
+                k_msleep(DFU_DBL_RESET_DELAY);
+                
+                (*dbl_reset_mem) = 0;
             }
             else
             {
                 // Register our first reset for double reset detection
-                (*dbl_reset_mem) = DFU_DBL_RESET_MAGIC;
+                (*dbl_reset_mem) = DFU_DBL_RESET_MAGIC_1;
                 
                 // if RST is pressed during this delay (double reset)--> if will enter dfu
                 k_msleep(DFU_DBL_RESET_DELAY);
@@ -231,24 +273,12 @@ int main(void)
 
     usb_enable(NULL);
 
-    uint16_t delay;
-    uint32_t start=k_uptime_get_32();
-    uint32_t st=0;
-    
-    while (1) {
-        gpio_pin_toggle_dt(&led_blue);
-        gpio_pin_toggle_dt(&led_red);
-        if(status == 0) delay = 700;
-        else delay =70;
-  
-        st=k_uptime_get_32();
-        while(k_uptime_get_32() - st < delay)
-        {
+    k_tid_t my_tid =k_thread_create(&my_thread_data, my_stack_area,
+                                 K_THREAD_STACK_SIZEOF(my_stack_area),
+                                 led_blink,
+                                 NULL, NULL, NULL,
+                                 9, 0, K_NO_WAIT);
 
-        }
-
-        if(k_uptime_get_32() - start > 10000) do_boot();
-    }
 
 	return 0;
 }
