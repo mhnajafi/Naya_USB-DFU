@@ -44,7 +44,7 @@ LOG_MODULE_REGISTER(main);
 #define DFU_DBL_RESET_MAGIC_1            0x5A1AD5      // SALADS
 #define DFU_DBL_RESET_MAGIC_2            0x5A5A1A      // SASALA
 #define DFU_DBL_RESET_APP               0x4ee5677e
-#define DFU_DBL_RESET_DELAY             500
+#define DFU_DBL_RESET_DELAY             300
 #define DFU_DBL_RESET_MEM               0x20007F7C
 
 
@@ -205,13 +205,9 @@ void led_blink(void *, void *, void *)
         gpio_pin_toggle_dt(&led_blue);
         gpio_pin_toggle_dt(&led_red);
         if(led_blink_status == 0) delay = 700;
-        else delay =50;
-  
-        st=k_uptime_get_32();
-        while(k_uptime_get_32() - st < delay)
-        {
-
-        }
+        else delay =100;
+        
+        k_msleep(delay);
 
         if(k_uptime_get_32() - start > 10000) do_boot();
     }

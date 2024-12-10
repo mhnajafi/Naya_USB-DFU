@@ -57,10 +57,13 @@
 LOG_MODULE_REGISTER(usb_dfu, CONFIG_USB_DEVICE_LOG_LEVEL);
 
 
+
+#define SOFTDEVICE_PARTITION	softdevice_partition
 #define MCUBOOT_PARTITION		mcuboot_partition
 #define SLOT0_PARTITION			slot0_partition
 #define SLOT1_PARTITION			slot1_partition
-#define SLOT2_PARTITION			slot2_partition
+#define MFW_PARTITION			mfw_partition
+
 
 
 #define FIRMWARE_MCUBOOT_LABEL "mcuboot"
@@ -150,7 +153,7 @@ struct dev_dfu_mode_descriptor {
 		struct usb_if_descriptor if1;
 		struct usb_if_descriptor if2;
 		struct usb_if_descriptor if3;
-
+		struct usb_if_descriptor if4;
 		struct dfu_runtime_descriptor dfu_descr;
 	} __packed sec_dfu_cfg;
 } __packed;
@@ -237,6 +240,19 @@ struct dev_dfu_mode_descriptor dfu_mode_desc = {
 			.bInterfaceProtocol = DFU_MODE_PROTOCOL,
 			.iInterface = 7,
 		},
+#if FIXED_PARTITION_EXISTS(MFW_PARTITION)		
+		.if4 = {
+			.bLength = sizeof(struct usb_if_descriptor),
+			.bDescriptorType = USB_DESC_INTERFACE,
+			.bInterfaceNumber = 0,
+			.bAlternateSetting = 4,
+			.bNumEndpoints = 0,
+			.bInterfaceClass = USB_BCC_APPLICATION,
+			.bInterfaceSubClass = DFU_SUBCLASS,
+			.bInterfaceProtocol = DFU_MODE_PROTOCOL,
+			.iInterface = 8,
+		},
+#endif
 
 		.dfu_descr = {
 			.bLength = sizeof(struct dfu_runtime_descriptor),
@@ -370,6 +386,8 @@ static struct dfu_data_t dfu_data = {
 	.bwPollTimeout = CONFIG_USB_DFU_DEFAULT_POLLTIMEOUT,
 };
 
+extern uint8_t led_blink_status;
+
 /**
  * @brief Helper function to check if in DFU app state.
  *
@@ -416,22 +434,23 @@ static void dfu_flash_write(uint8_t *data, size_t len)
 		LOG_ERR("flash write error");
 		dfu_data.state = dfuERROR;
 		dfu_data.status = errWRITE;
+		led_blink_status=0;
 	} else if (!len) {
-		const bool should_confirm = IS_ENABLED(CONFIG_USB_DFU_PERMANENT_DOWNLOAD);
+		// const bool should_confirm = IS_ENABLED(CONFIG_USB_DFU_PERMANENT_DOWNLOAD);
 
 		LOG_DBG("flash write done");
 		dfu_data.state = dfuMANIFEST_SYNC;
 		dfu_reset_counters();
 
-		LOG_DBG("Should confirm: %d", should_confirm);
+		// LOG_DBG("Should confirm: %d", should_confirm);
 		
-		if(dfu_data.flash_area_id== FIXED_PARTITION_ID(SLOT1_PARTITION))
-		{
-			if (boot_request_upgrade(should_confirm)) {
-			dfu_data.state = dfuERROR;
-			dfu_data.status = errWRITE;
-		}
-		}
+		// if(dfu_data.flash_area_id== FIXED_PARTITION_ID(SLOT1_PARTITION))
+		// {
+		// 	if (boot_request_upgrade(should_confirm)) {
+		// 	dfu_data.state = dfuERROR;
+		// 	dfu_data.status = errWRITE;
+		// }
+		// }
 		
 
 		k_poll_signal_raise(&dfu_signal, 0);
@@ -655,6 +674,7 @@ static int dfu_class_handle_to_device(struct usb_setup_packet *setup,
 
 	switch (setup->bRequest) {
 	case DFU_ABORT:
+		led_blink_status=0;
 		LOG_DBG("DFU_ABORT");
 
 		if (dfu_check_app_state()) {
@@ -667,6 +687,7 @@ static int dfu_class_handle_to_device(struct usb_setup_packet *setup,
 		break;
 
 	case DFU_CLRSTATUS:
+		led_blink_status=0;
 		LOG_DBG("DFU_CLRSTATUS");
 
 		if (dfu_check_app_state()) {
@@ -678,6 +699,7 @@ static int dfu_class_handle_to_device(struct usb_setup_packet *setup,
 		break;
 
 	case DFU_DNLOAD:
+		led_blink_status=1;
 		LOG_DBG("DFU_DNLOAD block %d, len %d, state %d",
 			setup->wValue, setup->wLength, dfu_data.state);
 
@@ -714,6 +736,7 @@ static int dfu_class_handle_to_device(struct usb_setup_packet *setup,
 			k_work_submit_to_queue(&USB_WORK_Q, &dfu_work);
 			break;
 		default:
+			led_blink_status=0;
 			LOG_ERR("DFU_DNLOAD wrong state %d", dfu_data.state);
 			dfu_data.state = dfuERROR;
 			dfu_data.status = errUNKNOWN;
@@ -722,6 +745,7 @@ static int dfu_class_handle_to_device(struct usb_setup_packet *setup,
 		}
 		break;
 	case DFU_DETACH:
+		led_blink_status=0;
 		LOG_DBG("DFU_DETACH timeout %d, state %d",
 			setup->wValue, dfu_data.state);
 
@@ -856,7 +880,7 @@ static int dfu_custom_handle_req(struct usb_setup_packet *setup,
 
 		switch (setup->wValue) {
 		case 0:
-			dfu_data.flash_area_id =FIXED_PARTITION_ID(MCUBOOT_PARTITION);
+			dfu_data.flash_area_id =FIXED_PARTITION_ID(SOFTDEVICE_PARTITION);
 			break;
 
 		case 1:
@@ -868,9 +892,13 @@ static int dfu_custom_handle_req(struct usb_setup_packet *setup,
 			break;
 
 		case 3:
-			dfu_data.flash_area_id = FIXED_PARTITION_ID(SLOT2_PARTITION);
+			dfu_data.flash_area_id = FIXED_PARTITION_ID(MCUBOOT_PARTITION);
 			break;
-
+#if FIXED_PARTITION_EXISTS(MFW_PARTITION)
+		case 4:
+			dfu_data.flash_area_id = FIXED_PARTITION_ID(MFW_PARTITION);
+			break;
+#endif
 		default:
 			LOG_WRN("Invalid DFU alternate setting");
 			return -ENOTSUP;
