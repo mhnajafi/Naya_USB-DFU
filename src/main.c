@@ -74,8 +74,8 @@ void led_blink(void *, void *, void *)
     
     bool value=0;
     while (1) {
-        // gpio_pin_toggle_dt(&led_blue);
-        // gpio_pin_toggle_dt(&led_red);
+        gpio_pin_toggle_dt(&led_blue);
+        gpio_pin_toggle_dt(&led_red);
         // gpio_pin_set(led_blue.port,led_blue.pin,value);
         // gpio_pin_set(led_red.port,led_red.pin,!value);
         value=!value;
@@ -291,7 +291,7 @@ int main(void)
                                  K_THREAD_STACK_SIZEOF(my_stack_area),
                                  led_blink,
                                  NULL, NULL, NULL,
-                                 15, 0, K_NO_WAIT);
+                                 91, 0, K_NO_WAIT);
 
 
 	return 0;
