@@ -49,14 +49,6 @@ LOG_MODULE_REGISTER(main);
 
 
 uint32_t* dbl_reset_mem = ((uint32_t*) DFU_DBL_RESET_MEM);
-uint8_t led_blink_status=0;
-K_THREAD_STACK_DEFINE(new_thread_stack, 128);
-struct k_thread new_thread_data;
-
-static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
-static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
-static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
-
 
 struct arm_vector_table {
     uint32_t msp;
@@ -192,6 +184,7 @@ uint8_t do_boot()
     return 0;
 }
 
+#ifdef CONFIG_BOARD_NAYA_DONGLE || CONFIG_BOARD_XIAO_BLE
 
 void led_blink(void *, void *, void *)
 {
@@ -212,10 +205,15 @@ void led_blink(void *, void *, void *)
         if(k_uptime_get_32() - start > 10000) do_boot();
     }
 }
+uint8_t led_blink_status=0;
 
-
+static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
+static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
+static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
 struct k_thread my_thread_data;
 K_THREAD_STACK_DEFINE(my_stack_area, 1024);
+#endif
+
 
 int main(void)
 {
@@ -269,12 +267,13 @@ int main(void)
 
     usb_enable(NULL);
 
+#ifdef CONFIG_BOARD_NAYA_DONGLE || CONFIG_BOARD_XIAO_BLE
     k_tid_t my_tid =k_thread_create(&my_thread_data, my_stack_area,
                                  K_THREAD_STACK_SIZEOF(my_stack_area),
                                  led_blink,
                                  NULL, NULL, NULL,
                                  9, 0, K_NO_WAIT);
-
+#endif
 
 	return 0;
 }
