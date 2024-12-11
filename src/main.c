@@ -57,24 +57,28 @@ struct arm_vector_table {
 
 uint8_t do_boot(void);
 uint8_t led_blink_status=0;
+struct k_thread my_thread_data;
+K_THREAD_STACK_DEFINE(my_stack_area, 1024);
 
 #if defined(CONFIG_BOARD_NAYA_DONGLE)  || defined(CONFIG_BOARD_XIAO_BLE)
 static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
 static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
 static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
-struct k_thread my_thread_data;
-K_THREAD_STACK_DEFINE(my_stack_area, 1024);
 void led_blink(void *, void *, void *)
 {
-    uint16_t delay;
+    uint16_t delay=1000;
     uint32_t start=k_uptime_get_32();
     uint32_t st=0;
     gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
     gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);   
     
+    bool value=0;
     while (1) {
-        gpio_pin_toggle_dt(&led_blue);
-        gpio_pin_toggle_dt(&led_red);
+        // gpio_pin_toggle_dt(&led_blue);
+        // gpio_pin_toggle_dt(&led_red);
+        // gpio_pin_set(led_blue.port,led_blue.pin,value);
+        // gpio_pin_set(led_red.port,led_red.pin,!value);
+        value=!value;
         if(led_blink_status == 0) delay = 700;
         else delay =100;
         
@@ -83,7 +87,18 @@ void led_blink(void *, void *, void *)
         if(k_uptime_get_32() - start > 10000) do_boot();
     }
 }
+#else
+void led_blink(void *, void *, void *)
+{
 
+    uint32_t start=k_uptime_get_32();
+
+    bool value=0;
+    while (1) {
+        k_msleep(1000);
+        if(k_uptime_get_32() - start > 10000) do_boot();
+    }
+}
 
 #endif
 
@@ -271,13 +286,13 @@ int main(void)
 
     usb_enable(NULL);
 
-#if defined(CONFIG_BOARD_NAYA_DONGLE)  || defined(CONFIG_BOARD_XIAO_BLE)
+
     k_tid_t my_tid =k_thread_create(&my_thread_data, my_stack_area,
                                  K_THREAD_STACK_SIZEOF(my_stack_area),
                                  led_blink,
                                  NULL, NULL, NULL,
-                                 9, 0, K_NO_WAIT);
-#endif
+                                 15, 0, K_NO_WAIT);
+
 
 	return 0;
 }
