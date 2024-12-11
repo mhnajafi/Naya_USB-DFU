@@ -55,6 +55,38 @@ struct arm_vector_table {
     uint32_t reset;
 };
 
+uint8_t do_boot(void);
+uint8_t led_blink_status=0;
+
+#if defined(CONFIG_BOARD_NAYA_DONGLE)  || defined(CONFIG_BOARD_XIAO_BLE)
+static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
+static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
+static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
+struct k_thread my_thread_data;
+K_THREAD_STACK_DEFINE(my_stack_area, 1024);
+void led_blink(void *, void *, void *)
+{
+    uint16_t delay;
+    uint32_t start=k_uptime_get_32();
+    uint32_t st=0;
+    gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
+    gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);   
+    
+    while (1) {
+        gpio_pin_toggle_dt(&led_blue);
+        gpio_pin_toggle_dt(&led_red);
+        if(led_blink_status == 0) delay = 700;
+        else delay =100;
+        
+        k_msleep(delay);
+
+        if(k_uptime_get_32() - start > 10000) do_boot();
+    }
+}
+
+
+#endif
+
 void cleanup_arm_nvic(void) {
 	/* Allow any pending interrupts to be recognized */
 	__ISB();
@@ -73,7 +105,7 @@ void cleanup_arm_nvic(void) {
 
 
 
-uint8_t do_boot()
+uint8_t do_boot(void)
 {
     struct arm_vector_table *vt;
     /* The beginning of the image is the ARM vector table, containing
@@ -105,8 +137,10 @@ uint8_t do_boot()
 
     vt = (struct arm_vector_table *)dst;
 
+#if defined(CONFIG_BOARD_NAYA_DONGLE)  || defined(CONFIG_BOARD_XIAO_BLE)
     gpio_pin_configure_dt(&led_blue, GPIO_DISCONNECTED);
     gpio_pin_configure_dt(&led_red, GPIO_DISCONNECTED);
+#endif
 
     if (IS_ENABLED(CONFIG_SYSTEM_TIMER_HAS_DISABLE_SUPPORT)) {
         sys_clock_disable();
@@ -184,36 +218,6 @@ uint8_t do_boot()
     return 0;
 }
 
-#ifdef CONFIG_BOARD_NAYA_DONGLE || CONFIG_BOARD_XIAO_BLE
-
-void led_blink(void *, void *, void *)
-{
-    uint16_t delay;
-    uint32_t start=k_uptime_get_32();
-    uint32_t st=0;
-    gpio_pin_configure_dt(&led_red, GPIO_OUTPUT_ACTIVE);
-    gpio_pin_configure_dt(&led_blue,GPIO_OUTPUT_INACTIVE);   
-    
-    while (1) {
-        gpio_pin_toggle_dt(&led_blue);
-        gpio_pin_toggle_dt(&led_red);
-        if(led_blink_status == 0) delay = 700;
-        else delay =100;
-        
-        k_msleep(delay);
-
-        if(k_uptime_get_32() - start > 10000) do_boot();
-    }
-}
-uint8_t led_blink_status=0;
-
-static const struct gpio_dt_spec led_red = GPIO_DT_SPEC_GET(DT_ALIAS(led0), gpios);
-static const struct gpio_dt_spec led_green = GPIO_DT_SPEC_GET(DT_ALIAS(led1), gpios);
-static const struct gpio_dt_spec led_blue = GPIO_DT_SPEC_GET(DT_ALIAS(led2), gpios);
-struct k_thread my_thread_data;
-K_THREAD_STACK_DEFINE(my_stack_area, 1024);
-#endif
-
 
 int main(void)
 {
@@ -267,7 +271,7 @@ int main(void)
 
     usb_enable(NULL);
 
-#ifdef CONFIG_BOARD_NAYA_DONGLE || CONFIG_BOARD_XIAO_BLE
+#if defined(CONFIG_BOARD_NAYA_DONGLE)  || defined(CONFIG_BOARD_XIAO_BLE)
     k_tid_t my_tid =k_thread_create(&my_thread_data, my_stack_area,
                                  K_THREAD_STACK_SIZEOF(my_stack_area),
                                  led_blink,

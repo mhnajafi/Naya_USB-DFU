@@ -18,7 +18,7 @@ if [[ "$1" == "xiao_ble" || "$1" == "naya_left" || "$1" == "naya_right" || "$1" 
     board=$1
     # dts="boards/$1.overlay"
     conf="boards/$1.conf"
-    source ../../.venv/bin/activate
+
     west build --pristine=auto -b $board -- -DEXTRA_CONF_FILE=$conf 
 
 else
